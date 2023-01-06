@@ -1,9 +1,77 @@
 ---
-title: "`rrqrcode` Example"
+title: "`rrqrcode`"
+format:
+    html: 
+        embed-resources: true
 ---
 
-## Heading
+## Some QR Code Examples
+
+`{{{< rrqr https://quarto.org >}}}`
 
 {{< rrqr https://quarto.org >}}
 
+100 pixels is the default size, but this can be adjusted.
 
+`{{{< rrqr https://quarto.org size=200 >}}}`
+
+{{< rrqr https://quarto.org size=200 >}}
+
+By default, the foreground is black, but that can be changed with the `fgcolor` argument.
+
+`{{{< rrqr https://quarto.org fgcolor=#3939FF >}}}`
+
+{{< rrqr https://quarto.org fgcolor=#3939FF >}}
+
+The positioning and alignment "eyes" of the QR Code can be colored separately from the other foreground elements.
+
+`{{{< rrqr https://quarto.org fgcolor=#3939FF dotcolor=#000080 >}}}`
+
+{{< rrqr https://quarto.org fgcolor=#3939FF dotcolor=#000080 >}}
+
+::: {style="background-color: #f2d7d5"}
+
+The background is fully transparent by default.
+
+`{{{< rrqr https://quarto.org >}}}`
+
+{{< rrqr https://quarto.org >}}
+
+Any change to the background color renders it fully opaque.
+
+`{{{< rrqr https://quarto.org bgcolor=#FFFFFF >}}}`
+
+{{< rrqr https://quarto.org bgcolor=#FFFFFF >}}
+
+The alpha level of each of the color groups can be set independently.
+
+`{{{< rrqr https://quarto.org bgalpha=0.5 >}}}`
+
+{{< rrqr https://quarto.org bgalpha=0.5 >}}
+
+:::
+
+::: {.just-here}
+
+For HTML-based formats, the class `qrcode` is assigned and can be used for styling.
+
+<style>
+.just-here .qrcode {
+    display: block; 
+    margin: 0 auto;
+}
+</style>
+
+`{{{< rrqr https://quarto.org >}}}`
+
+```css
+.qrcode {
+    display: block; 
+    margin: 0 auto;
+}
+```
+
+
+{{< rrqr https://quarto.org >}}
+
+:::

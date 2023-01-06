@@ -19,7 +19,7 @@ If you're using version control, you will want to check in this directory.
 
 ## Example
 
-A minimal example is included in the repository: [example.qmd](example.qmd).
+An example is included in the repository: [example.qmd](example.qmd). View this [example rendered into HTML](https://htmlpreview.github.io/?https://github.com/ryanraaum/quarto-rrqrcode/blob/main/example.html)
 
 ## Acknowledgements and Licenses
 
