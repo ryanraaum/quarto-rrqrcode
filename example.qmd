@@ -1,0 +1,9 @@
+---
+title: "`rrqrcode` Example"
+---
+
+## Heading
+
+{{< rrqr https://quarto.org >}}
+
+
