@@ -5,11 +5,34 @@ format:
         embed-resources: true
 ---
 
-## Some QR Code Examples
-
 `{{{< rrqr https://quarto.org >}}}`
 
 {{< rrqr https://quarto.org >}}
+
+### All arguments
+
+`rrqr data [id] [named=value]`
+
+#### Positional arguments
+
+`rrqr data [id]`
+
+argument|description
+--------|-----------
+`data` | information to be encoded in QR code 
+`id` | (optional) unique identifier; default = `rrqr1`, `rrqr2`, `...`, `rrqrN` 
+
+
+#### Optional named arguments
+
+argument|description|value
+--------|-----------|-----
+`size(=100)` | size of one side of QR code square | in pixels
+`class(=qrcode)`| html class attribute| 
+`fgcolor(=#000000)`, `bgcolor(=#FFFFFF)`, `fpcolor(=#000000)` | foreground, background, and fixed pattern colors| 3 or 6 character hex color
+`fgalpha(=1)`, `bgalpha(=0)`, `fpalpha(=1)` | foreground, background, and fixed alpha transparency| 0 (transparent) to 1 (opaque) 
+
+## Size
 
 100 pixels is the default size, but this can be adjusted.
 
@@ -17,19 +40,23 @@ format:
 
 {{< rrqr https://quarto.org size=200 >}}
 
-By default, the foreground is black, but that can be changed with the `fgcolor` argument.
+## Colors
 
-`{{{< rrqr https://quarto.org fgcolor=#3939FF >}}}`
+Change the main foreground color.
 
-{{< rrqr https://quarto.org fgcolor=#3939FF >}}
+`{{{< rrqr https://quarto.org fgcolor=#006DFF >}}}`
 
-The positioning and alignment "eyes" of the QR Code can be colored separately from the other foreground elements.
+{{< rrqr https://quarto.org fgcolor=#006DFF >}}
 
-`{{{< rrqr https://quarto.org fgcolor=#3939FF dotcolor=#000080 >}}}`
+The positioning and alignment fixed patterns of the QR Code can be colored separately from the other foreground elements.
 
-{{< rrqr https://quarto.org fgcolor=#3939FF dotcolor=#000080 >}}
+`{{{< rrqr https://quarto.org fgcolor=#006DFF fpcolor=#000080 >}}}`
 
-::: {style="background-color: #f2d7d5"}
+{{< rrqr https://quarto.org fgcolor=#006DFF fpcolor=#000080 >}}
+
+## Transparency
+
+::: {style="background-color: #006DFF"}
 
 The background is fully transparent by default.
 
@@ -49,20 +76,25 @@ The alpha level of each of the color groups can be set independently.
 
 {{< rrqr https://quarto.org bgalpha=0.5 >}}
 
+
 :::
+
+## HTML Styling
 
 ::: {.just-here}
 
-For HTML-based formats, the class `qrcode` is assigned and can be used for styling.
+For HTML-based formats, the class `qrcode` is assigned by default and can be used for styling.
 
 <style>
 .just-here .qrcode {
     display: block; 
     margin: 0 auto;
 }
-</style>
+.just-here .rotated {
+    transform: rotate(45deg);
+}
 
-`{{{< rrqr https://quarto.org >}}}`
+</style>
 
 ```css
 .qrcode {
@@ -71,7 +103,22 @@ For HTML-based formats, the class `qrcode` is assigned and can be used for styli
 }
 ```
 
-
 {{< rrqr https://quarto.org >}}
 
+Additional classes can be applied for styling. If you wish to retain the `qrcode` class, it must be included if other classes are added.
+
+```css
+.rotated {
+    transform: rotate(45deg);
+}
+```
+`{{{< rrqr https://quarto.org class="qrcode rotated" >}}}`
+
+<br/>
+
+{{< rrqr https://quarto.org class="qrcode rotated" >}}
+
 :::
+
+
+
