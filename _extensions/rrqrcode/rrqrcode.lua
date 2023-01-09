@@ -1,4 +1,6 @@
 
+rrcounter = 0
+
 local function make_table(nbits, pixel_size)
   local mt = {}
   for i=1,nbits*pixel_size do
@@ -51,7 +53,7 @@ local function qrimg(str, options)
   for x=1,#qrtab do
     for y=1,#qrtab do
         local pixel = options.bgcolor
-        if qrtab[x][y] > 2 then pixel = options.dotcolor 
+        if qrtab[x][y] > 2 then pixel = options.fpcolor 
         elseif qrtab[x][y] > 0 then pixel = options.fgcolor end 
         pngtab:write(pixel)
     end
@@ -65,8 +67,9 @@ end
 local defaultOptions = {
   bgcolor = {255, 255, 255, 0}, -- fully transparent white
   fgcolor = {0, 0, 0, 255}, -- fully opaque black
-  dotcolor = {0, 0, 0, 255}, -- fully opaque black
+  fpcolor = {0, 0, 0, 255}, -- fully opaque black
   size = 100,
+  class = "qrcode",
 }
 
 local function isnil(obj) 
@@ -108,6 +111,13 @@ local function onealpha(pandocList, alternative)
   return alternative
 end
 
+local function oneclass(userstring, alternative)
+  if #userstring > 1 then
+    return userstring
+  end
+  return alternative
+end
+
 local function processNamedOptions(userOptions) 
   local mergedOptions = {}
 
@@ -118,12 +128,12 @@ local function processNamedOptions(userOptions)
   -- main foreground color
   mergedOptions["fgcolor"] = onecolor(userOptions["fgcolor"], defaultOptions["fgcolor"])
 
-  -- dotcolor follows main foreground color unless explicitly set
-  mergedOptions["dotcolor"] = onecolor(userOptions["dotcolor"], mergedOptions["fgcolor"])
+  -- fpcolor follows main foreground color unless explicitly set
+  mergedOptions["fpcolor"] = onecolor(userOptions["fpcolor"], mergedOptions["fgcolor"])
 
-  -- update fg and dot color transparencies if necessary
+  -- update fg and fp color transparencies if necessary
   mergedOptions.fgcolor[4] = onealpha(userOptions.fgalpha, mergedOptions.fgcolor[4])
-  mergedOptions.dotcolor[4] = onealpha(userOptions.dotalpha, mergedOptions.dotcolor[4])
+  mergedOptions.fpcolor[4] = onealpha(userOptions.fpalpha, mergedOptions.fpcolor[4])
 
   -- update background color if specified
   mergedOptions["bgcolor"] = onecolor(userOptions["bgcolor"], defaultOptions["bgcolor"])
@@ -131,6 +141,8 @@ local function processNamedOptions(userOptions)
   if not isnil(userOptions.bgcolor) then mergedOptions.bgcolor[4] = 255 end
   -- and if the user actively sets a background opacity, overwrite with that
   mergedOptions.bgcolor[4] = onealpha(userOptions.bgalpha, mergedOptions.bgcolor[4])
+
+  mergedOptions.class = oneclass(pandoc.utils.stringify(userOptions.class), defaultOptions.class)
 
   return mergedOptions
 end
@@ -141,12 +153,18 @@ return {
       quarto.log.error("rrqrcode: Some data are required for the QR Code")
       return pandoc.Null()
     end
+    if args[2] ~= nil then
+      id = pandoc.utils.stringify(args[2])
+    else
+      rrcounter = rrcounter + 1
+      id = "rrqr" .. rrcounter
+    end
     local updatedOptions = processNamedOptions(kwargs)
     local qrtext = pandoc.utils.stringify(args[1])
     local res, img_name = qrimg(qrtext, updatedOptions)
     if res then
-      local attr = pandoc.Attr("", {"qrcode"}, {{"width",updatedOptions.size}})
-      return pandoc.Image({}, img_name, "title", attr)  
+      local attr = pandoc.Attr(id, {updatedOptions.class}, {{"width",updatedOptions.size}})
+      return pandoc.Image({}, img_name, "", attr)  
     else
       quarto.log.error("rrqrcode: Could not create qrcode")
       return pandoc.Null()
