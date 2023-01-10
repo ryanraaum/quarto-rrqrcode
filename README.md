@@ -23,6 +23,8 @@ An example is included in the repository: [example.qmd](example.qmd). View this 
 
 ## Acknowledgements and Licenses
 
+All new code in this repository is made available under an MIT 
+license. 
 The core functionality in this shortcode extension is enabled by 
 libraries and utilities created by others that are available for 
 reuse under the following licenses.
