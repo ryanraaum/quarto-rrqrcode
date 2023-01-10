@@ -17,7 +17,11 @@ If you're using version control, you will want to check in this directory.
 {{< rrqr https://quarto.org >}}
 ```
 
-![](quarto-org-qrcode.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="quarto-org-qrcode-light.png">
+  <source media="(prefers-color-scheme: light)" srcset="quarto-org-qrcode.png">
+  <img alt="Shows a QR code linking to quarto.org" src="quarto-org-qrcode.png">
+</picture>
 
 ## Example
 
